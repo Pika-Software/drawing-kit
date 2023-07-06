@@ -657,12 +657,8 @@ if not MENU_DLL then
                 shouldDrawLocalPlayer = true
             end
 
-            local flags = data.flags or STUDIO_RENDER
             cam.Start3D( LocalToWorld( entity:GetPos(), angle_zero, data.origin, angle_zero ), data.angles, data.fov, data.x, data.y, data.w, data.h, data.znear, data.zfar )
-                if not hook.Run( "PrePlayerDraw", entity, flags ) then
-                    entity:DrawModelWithChildren( flags, data.ignorenodraw )
-                    hook.Run( "PostPlayerDraw", entity, flags )
-                end
+                entity:DrawModelWithChildren( data.flags or STUDIO_RENDER, data.ignorenodraw )
             cam.End3D()
 
             if isLocalPlayer then
