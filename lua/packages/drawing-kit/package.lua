@@ -1,2 +1,2 @@
-name = "two-dimensional-drawing"
-version = 000100
+name = "drawing-kit"
+version = "0.1.0"
