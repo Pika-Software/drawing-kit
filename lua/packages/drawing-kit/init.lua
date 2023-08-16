@@ -27,6 +27,13 @@ end )
 
 module( "dk", package.seeall )
 
+for key, value in pairs( draw ) do
+    if key == "_PACKAGE" then continue end
+    if key == "_NAME" then continue end
+    if key == "_M" then continue end
+    _M[ key ] = value
+end
+
 -- Aliases
 TexturedRectRotated = surface.DrawTexturedRectRotated
 TexturedRectUV = surface.DrawTexturedRectUV
@@ -249,7 +256,7 @@ function Text( text, font, x, y, color, xAlign, yAlign )
     local curX = x
     local curY = y
 
-    surface.SetFont( font )
+    if font then surface.SetFont( font ) end
     local lineHeight = select( 2, surface.GetTextSize( "\n" ) )
     local tabWidth = 50
 
@@ -261,7 +268,7 @@ function Text( text, font, x, y, color, xAlign, yAlign )
         end
 
         if not string.find( str, "\t" ) then
-            SimpleText( str, font, curX, curY, color, xAlign, yAlign )
+            SimpleText( str, nil, curX, curY, color, xAlign, yAlign )
             continue
         end
 
@@ -269,7 +276,7 @@ function Text( text, font, x, y, color, xAlign, yAlign )
             curX = math.ceil( ( curX + tabWidth * math.max( #tabs - 1, 0 ) ) / tabWidth ) * tabWidth
 
             if #str2 > 0 then
-                SimpleText( str2, font, curX, curY, color, xAlign, yAlign )
+                SimpleText( str2, nil, curX, curY, color, xAlign, yAlign )
                 curX = curX + surface.GetTextSize( str2 )
             end
         end
@@ -336,7 +343,7 @@ do
             return textWrapCache[ chachedName ]
         end
 
-        surface.SetFont( font )
+        if font then surface.SetFont( font ) end
         if surface.GetTextSize( text ) <= width then
             textWrapCache[ chachedName ] = text
             return text
@@ -386,7 +393,7 @@ do
             return ellipsesTextCache[ chachedName ]
         end
 
-        surface.SetFont( font )
+        if font then surface.SetFont( font ) end
         local textWidth = surface.GetTextSize( text )
 
         if textWidth <= width then
